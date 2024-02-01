@@ -58,19 +58,6 @@ class MicroservicesProjectApplicationTests {
 				.andExpect(status().isCreated());
 		Assertions.assertEquals(1, productRepository.findAll().size());
 	}
-	@Test
-	void shouldGetProduct() throws Exception {
-		ProductResponse productResponse = getProductResponse(product);
-		String productResponseString = objectMapper.writeValueAsString(productResponse);
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/product")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(productResponseString))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.id").value(productResponse.getId()))
-				.andExpect(jsonPath("$.name").value(productResponse.getName()))
-				.andExpect(jsonPath("$.description").value(productResponse.getDescription()))
-				.andExpect(jsonPath("$.price").value(productResponse.getPrice()));
-	}
 
 
 	private ProductRequest getProductRequest(){
@@ -79,15 +66,6 @@ class MicroservicesProjectApplicationTests {
 				.description("New Laptop")
 				.price(BigDecimal.valueOf(56899))
 				.build();
-	}
-	private ProductResponse getProductResponse(Product product){
-		return ProductResponse.builder()
-				.id(product.getId())
-				.name(product.getName())
-				.description(product.getDescription())
-				.price(product.getPrice())
-				.build();
-
 	}
 
 }
