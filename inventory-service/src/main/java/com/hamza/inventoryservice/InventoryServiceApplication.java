@@ -18,11 +18,11 @@ public class InventoryServiceApplication {
 		public CommandLineRunner loadData(InventoryRepository inventoryRepository){
 		return args -> {
 			Inventory inventory = new Inventory();
-			inventory.setSkuCode("Asus VivoBook 15");
+			inventory.setSkuCode("Asus_VivoBook_15");
 			inventory.setQuantity(100);
 
 			Inventory inventory1 = new Inventory();
-			inventory1.setSkuCode("Asus vivoBook 14");
+			inventory1.setSkuCode("Asus_VivoBook_14");
 			inventory1.setQuantity(0);
 
 			inventoryRepository.save(inventory);
@@ -30,5 +30,4 @@ public class InventoryServiceApplication {
 
 		};
 	}
-
 }
