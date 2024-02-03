@@ -2,7 +2,6 @@ package com.hamza.inventoryservice;
 
 import com.hamza.inventoryservice.model.Inventory;
 import com.hamza.inventoryservice.repository.InventoryRepository;
-import com.hamza.inventoryservice.service.InventoryService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +21,7 @@ public class InventoryServiceApplication {
 			inventory.setQuantity(100);
 
 			Inventory inventory1 = new Inventory();
-			inventory1.setSkuCode("Asus_VivoBook_14");
+			inventory1.setSkuCode("Asus_VivoBook_18");
 			inventory1.setQuantity(0);
 
 			inventoryRepository.save(inventory);
