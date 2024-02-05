@@ -1,5 +1,10 @@
 HELP.md
 product-service/target/
+order-service/target/
+inventory-service/target/
+discovery-server/target/
+notification-service/target/
+api-gateway/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
