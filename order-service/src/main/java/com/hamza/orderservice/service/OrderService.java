@@ -3,6 +3,7 @@ package com.hamza.orderservice.service;
 import com.hamza.orderservice.dto.InventoryResponse;
 import com.hamza.orderservice.dto.OrderLineItemsDto;
 import com.hamza.orderservice.dto.OrderRequest;
+import com.hamza.orderservice.event.OrderIsPlacedEvent;
 import com.hamza.orderservice.model.Order;
 import com.hamza.orderservice.model.OrderLineItems;
 import com.hamza.orderservice.repository.OrderRepository;
@@ -10,6 +11,8 @@ import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,7 +30,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
     private final Tracer tracer;
-
+    private final KafkaTemplate<String, OrderIsPlacedEvent> kafkaTemplate;
     public String placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -61,6 +64,7 @@ public class OrderService {
 
             if(allProductsInStock) {
                 orderRepository.save(order);
+                kafkaTemplate.send("notificationTopic", new OrderIsPlacedEvent(order.getOrderNumber()));
                 return "Order is placed!!!";
             }else {
                 throw new IllegalArgumentException("Out of stock. Try later.");
